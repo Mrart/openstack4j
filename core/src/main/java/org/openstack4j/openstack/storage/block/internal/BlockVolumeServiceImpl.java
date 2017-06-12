@@ -27,7 +27,8 @@ import org.openstack4j.openstack.storage.block.domain.ResetStatusAction;
 import org.openstack4j.openstack.storage.block.domain.UpdateReadOnlyFlagAction;
 
 /**
- * Manages Volumes and Volume Type based operations against Block Storage (Cinder)
+ * Manages Volumes and Volume Type based operations against Block Storage
+ * (Cinder)
  * 
  * @author Jeremy Unruh
  */
@@ -48,7 +49,17 @@ public class BlockVolumeServiceImpl extends BaseBlockStorageServices implements 
     public List<? extends Volume> list() {
         return get(Volumes.class, uri("/volumes/detail")).execute().getList();
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<? extends Volume> listAll() {
+        Invocation<Volumes> req = get(Volumes.class, uri("/volumes/detail"));
+        req.param("all_tenants", 1);
+        return req.execute().getList();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -82,8 +93,7 @@ public class BlockVolumeServiceImpl extends BaseBlockStorageServices implements 
     @Override
     public ActionResponse forceDelete(String volumeId) {
         checkNotNull(volumeId);
-        return post(ActionResponse.class, uri("/volumes/%s/action", volumeId))
-                .entity(new ForceDeleteAction())
+        return post(ActionResponse.class, uri("/volumes/%s/action", volumeId)).entity(new ForceDeleteAction())
                 .execute();
     }
 
@@ -94,8 +104,7 @@ public class BlockVolumeServiceImpl extends BaseBlockStorageServices implements 
     public ActionResponse resetState(String volumeId, Volume.Status status) {
         checkNotNull(volumeId);
         checkNotNull(status);
-        return post(ActionResponse.class, uri("/volumes/%s/action", volumeId))
-                .entity(new ResetStatusAction(status))
+        return post(ActionResponse.class, uri("/volumes/%s/action", volumeId)).entity(new ResetStatusAction(status))
                 .execute();
     }
 
@@ -106,8 +115,7 @@ public class BlockVolumeServiceImpl extends BaseBlockStorageServices implements 
     public ActionResponse extend(String volumeId, Integer newSize) {
         checkNotNull(volumeId);
         checkNotNull(newSize);
-        return post(ActionResponse.class, uri("/volumes/%s/action", volumeId))
-                .entity(new ExtendAction(newSize))
+        return post(ActionResponse.class, uri("/volumes/%s/action", volumeId)).entity(new ExtendAction(newSize))
                 .execute();
     }
 
@@ -130,8 +138,7 @@ public class BlockVolumeServiceImpl extends BaseBlockStorageServices implements 
             return ActionResponse.actionFailed("Name and Description are both required", 412);
 
         return put(ActionResponse.class, uri("/volumes/%s", volumeId))
-                .entity(Builders.volume().name(name).description(description).build())
-                .execute();
+                .entity(Builders.volume().name(name).description(description).build()).execute();
     }
 
     /**
@@ -156,19 +163,16 @@ public class BlockVolumeServiceImpl extends BaseBlockStorageServices implements 
     @Override
     public ActionResponse migrate(String volumeId, String hostService, boolean forceHostCopy) {
         CinderVolumeMigration migration = new CinderVolumeMigration(hostService, forceHostCopy);
-        return post(ActionResponse.class, uri("/volumes/%s/action", volumeId))
-                .entity(migration)
-                .execute();
+        return post(ActionResponse.class, uri("/volumes/%s/action", volumeId)).entity(migration).execute();
     }
 
     @Override
     public VolumeUploadImage uploadToImage(String volumeId, UploadImageData data) {
         checkNotNull(volumeId, "volumeId");
         checkNotNull(data, "UploadImageData");
-        
+
         return post(CinderVolumeUploadImage.class, uri("/volumes/%s/action", volumeId))
-                .entity(CinderUploadImageData.create(data))
-                .execute();
+                .entity(CinderUploadImageData.create(data)).execute();
     }
 
     @Override
@@ -195,8 +199,7 @@ public class BlockVolumeServiceImpl extends BaseBlockStorageServices implements 
     public ActionResponse readOnlyModeUpdate(String volumeId, boolean readonly) {
         checkNotNull(volumeId);
         return post(ActionResponse.class, uri("/volumes/%s/action", volumeId))
-                .entity(new UpdateReadOnlyFlagAction(readonly))
-                .execute();
+                .entity(new UpdateReadOnlyFlagAction(readonly)).execute();
     }
 
 }

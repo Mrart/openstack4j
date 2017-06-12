@@ -47,6 +47,13 @@ public interface BlockVolumeService extends RestService {
 	 * @return List of Volumes
 	 */
 	List<? extends Volume> list();
+	
+	/**
+     * Lists summary information for all Block Storage volumes that all tenant.
+     * 
+     * @return List of Volumes
+     */
+    List<? extends Volume> listAll();
 
 	/**
 	 * Returns list of Block Storage volumes filtered by parameters.

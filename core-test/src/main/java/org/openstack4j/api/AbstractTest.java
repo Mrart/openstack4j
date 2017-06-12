@@ -69,7 +69,7 @@ public abstract class AbstractTest {
     @BeforeClass
     protected void startServer() throws UnknownHostException {
 
-        InetAddress inetAddress = InetAddress.getByName("localhost");
+        InetAddress inetAddress = InetAddress.getByName("192。168.234.129");
         LOG.info("localhost inet address: " + inetAddress.toString());
         LOG.info("Tests using connector: " + HttpExecutor.create().getExecutorName() + " on " + getHost());
 

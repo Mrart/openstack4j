@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<groupId>org.pacesys</groupId>
 		<artifactId>openstack4j-parent</artifactId>
-		<version>3.0.4-SNAPSHOT</version>
+		<version>3.0.4-RELEASE</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>openstack4j</artifactId>
@@ -19,8 +20,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.pacesys.openstack4j.connectors</groupId>
-			<artifactId>openstack4j-resteasy</artifactId>
-			<version>${project.version}</version>
+			<artifactId>openstack4j-httpclient</artifactId>
+			<version>3.0.4-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -37,9 +38,9 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-                                                <configuration>
-                                                  <additionalparam>-Xdoclint:none</additionalparam>
-                                                </configuration>
+						<configuration>
+							<additionalparam>-Xdoclint:none</additionalparam>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
